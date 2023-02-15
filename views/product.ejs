@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+   	 .hidden{
+   		 display: none;
+   	 }
+    </style>
+</head>
+  <body class="container-sm text-center">
+    <!-- Display product -->
+    <div class="mt-3 d-flex flex-row">
+   	 <img src=<%=image%> alt="Product image" style="max-width: 450px;">
+
+   	 <div class="px-5 py-3 text-start d-flex flex-column justify-content-between align-items-start">
+   		 <h2 class="title"><%=title%></h2>
+   		 <p class="description"><%=description%></p>
+   		 <p class="price"><strong>Price:</strong> $<%=price%> (Billed monthly)</p>
+   		 <button class="btn btn-primary" id="purchaseBtn">Book Now</button>
+   	 </div>
+    </div>
+
+    <!-- Customer details form -->
+    <div class="mt-5 hidden" id="custContainer">
+   	 <hr>
+   	 <h3>Customer Details</h3>
+   	 <form class="text-start row g-3">
+   		 <h5>Personal Details</h5>
+   		 <div class="col-md-4">
+     		 <label for="custName" class="form-label">Name</label>
+     		 <input type="text" class="form-control" id="custName" value="Jane Doe">
+   		 </div>
+   		 <div class="col-md-4">
+     		 <label for="custEmail" class="form-label">Email</label>
+     		 <input type="text" class="form-control" id="custEmail">
+   		 </div>
+   		 <div class="col-md-4">
+       		 <label for="custPhone" class="form-label">Phone</label>
+       		 <input type="text" class="form-control" id="custPhone" value="+14155559993">
+   		 </div>
+
+   		 <h5>Payment Details</h5>
+   		 <div class="col-3">
+     		 <label for="custCardNo" class="form-label">Card Number</label>
+     		 <input type="text" class="form-control" id="custCardNo" placeholder="4111 1111 1111 1111" value="4111111111111111">
+   		 </div>
+   		 <div class="col-3">
+       		 <label for="custCardExpMonth" class="form-label">Expiry Month</label>
+       		 <input type="number" class="form-control" id="custCardExpMonth" placeholder="12" value="12">
+   		 </div>
+   		 <div class="col-3">
+       		 <label for="custCardExpYear" class="form-label">Expiry Year</label>
+       		 <input type="number" class="form-control" id="custCardExpYear" placeholder="34" value="34">
+   		 </div>
+   		 <div class="col-3">
+       		 <label for="custCardCVV" class="form-label">CVV</label>
+       		 <input type="number" class="form-control" id="custCardCVV" placeholder="567" value="567">
+   		 </div>
+
+   		 <div class="col-12">
+     		 <button type="submit" id="checkoutBtn" class="btn btn-primary">Checkout</button>
+   		 </div>
+ 		 </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script>
+   	 const purchaseBtn = document.getElementById('purchaseBtn')
+   	 const custContainer = document.getElementById('custContainer')
+   	 const checkoutBtn = document.getElementById("checkoutBtn")
+
+   	 purchaseBtn.addEventListener('click', () => {
+   		 custContainer.classList.remove('hidden')
+   		 purchaseBtn.setAttribute('disabled', 'true')
+   		 purchaseBtn.innerText = 'Provide your details below'
+   	 })
+
+   	 custContainer.addEventListener('submit', (e) => {
+   		 e.preventDefault()
+
+   		 const customerDetails = {
+   		 name: document.getElementById('custName').value,
+   		 email: document.getElementById('custEmail').value,
+   		 phone: document.getElementById('custPhone').value,
+   		 cardNo: document.getElementById('custCardNo').value,
+   		 cardExpMonth: document.getElementById('custCardExpMonth').value,
+   		 cardExpYear: document.getElementById('custCardExpYear').value,
+   		 cardCVV: document.getElementById('custCardCVV').value
+   	 }
+
+   		 console.log(customerDetails)
+
+   		 fetch('http://localhost:3000/', {
+       		 method: 'POST',
+       		 headers: {
+           		 'Content-Type': 'application/json'
+       		 },
+       		 body: JSON.stringify({
+           		 customerDetails: customerDetails
+       		 })
+   		 }).then(res => {
+			console.log(res)
+			if(res.status === 200){
+				window.location.assign('http://localhost:3000/checkout')
+			}
+		 })
+		//  (
+       	// 	 //redirect to checkout page
+       	// 	//  window.location.assign('http://localhost:3000/checkout')
+   		//  )
+   	 })
+    </script>
+  </body>
+</html>
