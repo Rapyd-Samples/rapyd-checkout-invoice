@@ -18,7 +18,7 @@ MAILGUN_API_KEY=
 MAILGUN_DOMAIN=
 MAILGUN_SENDER_EMAIL=
 ```
-- Add your recipient email in the the "Authorized Recipients" list on the [Domains page](https://app.mailgun.com/app/sending/domains) > your sending domain in Mailgun
+- Add your recipient email in the the "Authorized Recipients" list on the [Domains page](https://app.mailgun.com/app/sending/domains) > your sending domain in Mailgun OR make sure to use the email associated with your Mailgun account when testing the application
 - Run the application with the `npm start` command
 
 ## Get Support 
